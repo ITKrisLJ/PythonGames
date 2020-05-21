@@ -1,0 +1,112 @@
+# template for "Guess the number" mini-project
+#run here http://www.codeskulptor.org/
+# input will come from buttons and an input field
+# all output for the game will be printed in the console
+
+#--------------------------------------------------------------------
+import simplegui
+import random
+import math
+
+#global default data 
+#
+canvas_color = "Green"
+canvas_width = 300
+canvas_height = 300
+
+input_guess_  	= 0
+guess_counter 	= 0 
+global_counter	= 0
+secret_number 	= 0
+# first time start with :
+range_type 		= [0,100]
+
+#---------------------------------------------------------------------
+# helper function to start and restart the game
+def new_game():
+    # initialize global variables used in your code here
+    global secret_number,guess_counter
+    
+    # initialize the secret_number
+    secret_number = random.randrange(0,range_type[1])
+    # clear input box
+    input_text.set_text('')
+    # initialize guess counter by log2(x) convert to int
+    guess_counter= int(math.ceil(math.log(range_type[1] - 0 + 1, 2)))
+    # print the messages for user
+    print "\nNew game. Range is [" + str(range_type[0])+","+str(range_type[1])+ ")\nNumber of remaining guesses is", guess_counter
+    
+#---------------------------------------------------------------------    
+# define event handlers for control panel
+#---------------------------------------------------------------------
+
+def range100():
+    # button that changes the range to [0,100) and starts a new game   
+    global range_type 
+    range_type = [0,100]
+    new_game()
+    
+#---------------------------------------------------------------------
+def range1000():
+    # button that changes the range to [0,1000) and starts a new game       
+    global range_type 
+    range_type = [0,1000]
+    new_game()
+#----------------------------------------------------------------------
+
+#----------------------------------------------------------------------
+# input_guess function 
+# get data from text box conver to check and convert to int
+# calculate the guess_conunter number
+# then compare number to secret_number value
+
+def input_guess(guess):
+    # main game logic goes here	
+    global secret_number
+    global input_counter
+    global guess_counter
+    global range_type
+#---------------------------------#    
+#---------------------------------#    
+    # get text data and convert to int 
+    # if is error print the message and continue
+    # but user will loose one step becouse except: will change guess to 0 and function continue
+    try:
+        guess_to_int = int(guess)
+    except:    
+        print "\nInvalid data. You lost one move"
+        input_text.set_text('')
+        guess_to_int = 0
+#---------------------------------#  
+
+    guess_counter = guess_counter -1 
+
+    print "\nGuess was",guess
+    print "Number of remaining guesses is", guess_counter #, guess_to_int,secret_number
+
+    if guess_to_int == secret_number  and  guess_counter >= 0:
+            print "Correct!","The number was",secret_number
+            new_game()      
+    elif guess_to_int > secret_number and  guess_counter > 0:
+            print "Lower!"
+    elif guess_to_int < secret_number and  guess_counter > 0: 
+            print "Higher!"            
+    if guess_counter <= 0:
+            print "You ran out of guesses. The number was",secret_number
+            new_game() 
+
+####################################################################
+# create frame and 2 button  1 input text
+
+frame = simplegui.create_frame("Guess the number", canvas_width, canvas_height)
+frame.set_canvas_background(canvas_color)
+
+frame.add_button("Range is [0,100)",range100,200)
+frame.add_button("Range is [0,1000)",range1000,200)
+input_text = frame.add_input("Input guess", input_guess, 200)
+
+# Start the frame animation
+frame.start()
+
+# call new_game when program start with global data like a default 
+new_game()
