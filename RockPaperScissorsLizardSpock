@@ -1,0 +1,113 @@
+# Rock-paper-scissors-lizard-Spock @K.L
+#http://www.codeskulptor.org/#user40_f0osTd4t8P_7.py
+# The key idea of this program is to equate the strings
+# "rock", "paper", "scissors", "lizard", "Spock" to numbers
+# as follows:
+#
+# 0 - rock
+# 1 - Spock
+# 2 - paper
+# 3 - lizard
+# 4 - scissors
+
+
+#import random function
+import random 
+
+#--------------------------------------------------------
+def name_to_number(name):
+    # Function converting name to number from 0 to 4
+    # and return value
+    # convert name to number using if/elif/else
+    
+    if name == "rock":
+        return 0
+    elif name == "Spock":
+        return 1
+    elif name == "paper":
+        return 2
+    elif name == "lizard":
+        return 3
+    elif name == "scissors":
+        return 4
+    else:
+        return -1
+# End function
+#--------------------------------------------------------
+
+
+def number_to_name(number):
+    # Function converting number to name
+    # return string name
+    if number == 0:
+        return "rock"
+    elif number == 1:
+        return "Spock"
+    elif number == 2:
+        return "paper"
+    elif number == 3:
+        return "lizard"
+    elif number == 4 :
+        return "scissors"
+#End function
+#---------------------------------------------------------
+    
+
+def rpsls(player_choice): 
+    # Function calculate the choice and print results 
+    # use random function to select computer choice
+    
+    # print a blank line to separate consecutive games
+    print ""
+    
+    # convert the player's choice to player_number using the function name_to_number()
+    player_number = name_to_number(player_choice)
+    # if name_to_number function return value -1 if function willl
+    # print wrong data message if not then continue.
+    if player_number < 0:
+        print "Wrong player choice! Let's try again"
+    else:
+        # print out the message for the player's choice
+        print "Player chooses",player_choice   
+       
+        # compute random guess for comp_number using random.randrange()
+        # It's from 0 to 5 the randrange always show the number (n,m-1)
+        comp_number = random.randrange(0,5)
+        
+        # convert comp_number to comp_choice using the function number_to_name()
+        comp_choice = number_to_name(comp_number)
+        
+        # print out the message for computer's choice
+        print "Computer chooses", comp_choice
+        
+        # compute difference of comp_number and player_number modulo five
+        comp_diff = (player_number - comp_number) %5
+        
+        # use if/elif/else to determine winner, print winner message     
+        # if comp_diff return 0 then tie
+        # if comp_diff is between 1 to 2 then player win
+        # if comp_diff is between 3 to 4 then computer win
+        if comp_diff == 0:
+            print "Player and computer tie!"
+        elif comp_diff < 3 and comp_diff > 0:
+            print "Player wins!"
+        else:
+            print "Computer wins!"        
+        #end if comp_diff
+    #end if player_number   
+#End function        
+    
+    
+##########################################################   
+#Main program   
+##########################################################    
+# test code 
+rpsls("rock")
+rpsls("Spock")
+rpsls("paper")
+rpsls("lizard")
+rpsls("scissors")
+#extra test for wrong name
+#rpsls("Kris")
+
+
